@@ -1,0 +1,22 @@
+{
+  "name": "flashcard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redpanda117/Flashcards.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/redpanda117/Flashcards/issues"
+  },
+  "homepage": "https://github.com/redpanda117/Flashcards#readme",
+  "dependencies": {
+    "inquirer": "^3.2.0"
+  }
+}
