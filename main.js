@@ -20,7 +20,7 @@ function makeBasicCard(front, back) {
     basicQuestion.push(addBasicCard);
 };
 
-//creating the basic cards
+//test run questions
 /*makeBasicCard("What superhero can climb walls and shoot webs?", "SpiderMan");
 makeBasicCard("He has been seen running with an ant army.", "AntMan");
 makeBasicCard("This woman has a lasso that make people speak the truth.", "Wonder Woman");*/
@@ -34,7 +34,8 @@ var makeClozeCard = function (text, cloze) {
     clozeQuestion.push(addClozeCard);
 }
 
-/*makeClozeCard("The Hulk turns green when he is angry", "Hulk");
+/*testing run questions
+makeClozeCard("The Hulk turns green when he is angry", "Hulk");
 makeClozeCard("Natasha Romanova has many aliases but the one most poeple known her by is Black Widow.", "Black Widow");
 makeClozeCard("Superman is weak against kryptonite.", "Superman");*/
 
@@ -49,11 +50,11 @@ function creatflashcards() {
             {
                 type: "list",
                 message: "Which flash card you want to make?",
-                choices: ["Basic flashcards", "Cloze-Deleted flashcards"],
+                choices: ["Basic flashcards (Question and answer)", "Cloze-Deleted flashcards (Fill in the blank)"],
                 name: "flashcards"
             }
         ]).then(function (inquirerResponse) {
-            if (inquirerResponse.flashcards === "Basic flashcards") {
+            if (inquirerResponse.flashcards === "Basic flashcards (Question and answer)") {
                 inquirer.prompt([
                     {
                         name: "front",
@@ -84,8 +85,26 @@ function creatflashcards() {
             }
         }); //end when you reach the limit of amount of cards you can make.
     } else {
-    //when made enough cards run the start function to go through them.
-        start();
+        //when made enough cards run the start function to go through them.
+        inquirer.prompt([
+            // Here we ask the user to confirm to start going through the flashcards 
+            {
+                type: "confirm",
+                message: "Are you ready to start?",
+                name: "confirm",
+                default: true
+    }
+     ]).then(function (inquirerResponse) {
+            //user wants to play again
+            if (inquirerResponse.confirm) {
+                //resetting the vaules for playing again
+                console.log("====== OK LETS GO! ======");
+                start();
+            } else {
+                console.log("====== Okay come back another time. ======");
+            }
+        });
+    
     }
 
 } //end of creatflashcards().
@@ -106,10 +125,10 @@ function start() {
                 //see if the answer wrong or right and add to score and to the currentQuestion
                 if (answer.name.toLowerCase() === basicQuestion[currentBasicQuestion].back.toLowerCase()) {
                     correct++;
-                    console.log("RIGHT");
+                    console.log("====== RIGHT ======");
                 } else {
                     incorrect++;
-                    console.log("WRONG");
+                    console.log("====== WRONG ======");
                 }
                 //add to question so it goes to the next one 
                 currentBasicQuestion++;
@@ -129,10 +148,10 @@ function start() {
                 //see if the answer wrong or right and add to score and to the currentQuestion.
                 if (answer.name.toLowerCase() === clozeQuestion[currentClozeQuestion].cloze.toLowerCase()) {
                     correct++;
-                    console.log("RIGHT");
+                    console.log("====== RIGHT ======");
                 } else {
                     incorrect++;
-                    console.log("WRONG")
+                    console.log("====== WRONG ======");
                 }
                 //add to total questions to see ther are any left
                 totalQuestion++;
@@ -144,29 +163,27 @@ function start() {
         //basic + cloze end. Now end game.
     } else {
         console.log("You are finish. Here is your score:" + "\n Correct: " + correct + "\n Wrong:" + incorrect);
-        inquirer
-            .prompt([
+        inquirer.prompt([
             // Here we ask the user to confirm.
-                {
-                    type: "confirm",
-                    message: "Do you want to go for another round?",
-                    name: "confirm",
-                    default: true
+            {
+                type: "confirm",
+                message: "Do you want to go for another round?",
+                name: "confirm",
+                default: true
     }
      ]).then(function (inquirerResponse) {
-                //user wants to play again
-                if (inquirerResponse.confirm) {
-                    //resetting the vaules for playing again
-                    currentBasicQuestion = 0;
-                    currentClozeQuestion = 0;
-                    correct = 0;
-                    incorrect = 0;
-                    totalQuestion = 0;
-                    start();
-                } else {
-                    console.log("Okay come back another time.");
-                }
-            });
+            //user wants to play again
+            if (inquirerResponse.confirm) {
+                //resetting the vaules for playing again
+                currentBasicQuestion = 0;
+                currentClozeQuestion = 0;
+                correct = 0;
+                incorrect = 0;
+                totalQuestion = 0;
+                start();
+            } else {
+                console.log("====== Okay come back another time. ======");
+            }
+        });
     }
 } //function start end
-
