@@ -37,7 +37,8 @@ makeClozeCard("Superman is weak against kryptonite.","Superman");
 console.log(clozeQuestion);
 
 // keep tack of current question and score wronge and right answers
-var currentQuestion = 0;
+var currentBasicQuestion = 0;
+var currentClozeQuestion = 0;
 var correct = 0;
 var incorrect = 0;
 var totalQuestion = 0;
@@ -50,10 +51,10 @@ function start() {
             inquirer.prompt([
                 {
                     name: "name",
-                    message: basicQuestion[currentQuestion].front
+                    message: basicQuestion[currentBasicQuestion].front
   }]).then(function (answer) {
                 //see if the answer wrong or right and add to score and to the currentQuestion
-                if (answer.name.toLowerCase() === basicQuestion[currentQuestion].back.toLowerCase()) {
+                if (answer.name.toLowerCase() === basicQuestion[currentBasicQuestion].back.toLowerCase()) {
                     correct++;
                     console.log("RIGHT");
                 } else {
@@ -61,24 +62,22 @@ function start() {
                     console.log("WRONG");
                 }
             //add to question so it goes to the next one 
-                currentQuestion++;
+                currentBasicQuestion++;
             //add to total questions to see ther are any left
                 totalQuestion++;
                 start();//run function again to get next question 
             });
             //end of basic quesion
         }else{
-        //set current question bak to zero because we are going into a new array
-            currentQuestion = 0;
         // now the 3 cloze question
                   inquirer.prompt([
                 {
                     name: "name",
-                    message: clozeQuestion[currentQuestion].partial
+                    message: clozeQuestion[currentClozeQuestion].partial
                     
   }]).then(function (answer) {
                 //see if the answer wrong or right and add to score and to the currentQuestion.
-                if (answer.name.toLowerCase() === clozeQuestion[currentQuestion].cloze.toLowerCase()) {
+                if (answer.name.toLowerCase() === clozeQuestion[currentClozeQuestion].cloze.toLowerCase()) {
                     correct++;
                     console.log("RIGHT");
                 } else {
@@ -87,7 +86,7 @@ function start() {
                 }
                 //add to total questions to see ther are any left
                totalQuestion++;
-               currentQuestion++;  
+               currentClozeQuestion++;  
                start();//run function again to get next question       
             });
 }//end of cloze questions
