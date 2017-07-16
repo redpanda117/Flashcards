@@ -41,15 +41,17 @@ makeClozeCard("Superman is weak against kryptonite.", "Superman");*/
 
 //testing for errors
 //console.log(clozeQuestion);
-creatflashcards();
+
+//run creatflashcard function so user can start creating there flashcard
+createFlashCards();
 
 //function that lets user make the flashcards
-function creatflashcards() {
+function createFlashCards() {
     if (basicQuestion.length + clozeQuestion.length < 2) {
         inquirer.prompt([
             {
                 type: "list",
-                message: "Which flash card you want to make?",
+                message: "Which flashcard you want to make?",
                 choices: ["Basic flashcards (Question and answer)", "Cloze-Deleted flashcards (Fill in the blank)"],
                 name: "flashcards"
             }
@@ -66,7 +68,7 @@ function creatflashcards() {
              }
         ]).then(function (answers) {
                     makeBasicCard(answers.front, answers.back);
-                    creatflashcards();
+                    createFlashCards();
                 });
                 //end of making basic cards choice
             } else {
@@ -80,7 +82,7 @@ function creatflashcards() {
                     }
                 ]).then(function (answers) {
                     makeClozeCard(answers.text, answers.cloze);
-                    creatflashcards();
+                    createFlashCards();
                 });
             }
         }); //end when you reach the limit of amount of cards you can make.
@@ -104,7 +106,7 @@ function creatflashcards() {
                 console.log("====== Okay come back another time. ======");
             }
         });
-    
+
     }
 
 } //end of creatflashcards().
@@ -162,9 +164,10 @@ function start() {
 
         //basic + cloze end. Now end game.
     } else {
+    //console.loging users score.
         console.log("You are finish. Here is your score:" + "\n Correct: " + correct + "\n Wrong:" + incorrect);
         inquirer.prompt([
-            // Here we ask the user to confirm.
+            // Here we ask the user to confirm. If they want to go through flashcards again
             {
                 type: "confirm",
                 message: "Do you want to go for another round?",
@@ -180,7 +183,26 @@ function start() {
                 correct = 0;
                 incorrect = 0;
                 totalQuestion = 0;
-                start();
+            //ask user if he/she wants to make new cards or review the curren ones.
+                inquirer.prompt([
+                    {
+                        type: "list",
+                        message: "Do you want to make new flashcards or go through the current one again",
+                        choices: ["Make new flashcards", "Go through the current ones again."],
+                        name: "name"
+            }
+        ]).then(function (inquirerResponse) {
+                    if (inquirerResponse.name === "Make new flashcards") {
+                        //empty the current array so user can fill it up wih new questions.
+                        basicQuestion = [];
+                        clozeQuestion = [];
+                        console.log("====== Okay lets make new flashcards======");
+                        createFlashCards();
+                    } else {
+                        console.log("====== Okay lets review. ========");
+                         start();
+                    }
+                });
             } else {
                 console.log("====== Okay come back another time. ======");
             }
