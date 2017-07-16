@@ -20,7 +20,7 @@ function makeBasicCard(front, back) {
     basicQuestion.push(addBasicCard);
 };
 
-//test run questions
+//test run questions see start() works
 /*makeBasicCard("What superhero can climb walls and shoot webs?", "SpiderMan");
 makeBasicCard("He has been seen running with an ant army.", "AntMan");
 makeBasicCard("This woman has a lasso that make people speak the truth.", "Wonder Woman");*/
@@ -34,7 +34,7 @@ var makeClozeCard = function (text, cloze) {
     clozeQuestion.push(addClozeCard);
 }
 
-/*testing run questions
+/*testing run questions to see if start() works 
 makeClozeCard("The Hulk turns green when he is angry", "Hulk");
 makeClozeCard("Natasha Romanova has many aliases but the one most poeple known her by is Black Widow.", "Black Widow");
 makeClozeCard("Superman is weak against kryptonite.", "Superman");*/
@@ -47,6 +47,7 @@ createFlashCards();
 
 //function that lets user make the flashcards
 function createFlashCards() {
+    //set limit to how many cards you can make
     if (basicQuestion.length + clozeQuestion.length < 2) {
         inquirer.prompt([
             {
@@ -81,8 +82,12 @@ function createFlashCards() {
                         message: "Whats is the answer from the sentence that you want to remove?"
                     }
                 ]).then(function (answers) {
+                    if (answers.text.includes(answers.cloze) === false){
+                        createFlashCards();
+                    }else{
                     makeClozeCard(answers.text, answers.cloze);
                     createFlashCards();
+                    }
                 });
             }
         }); //end when you reach the limit of amount of cards you can make.
@@ -164,7 +169,7 @@ function start() {
 
         //basic + cloze end. Now end game.
     } else {
-    //console.loging users score.
+        //console.loging users score.
         console.log("You are finish. Here is your score:" + "\n Correct: " + correct + "\n Wrong:" + incorrect);
         inquirer.prompt([
             // Here we ask the user to confirm. If they want to go through flashcards again
@@ -183,7 +188,7 @@ function start() {
                 correct = 0;
                 incorrect = 0;
                 totalQuestion = 0;
-            //ask user if he/she wants to make new cards or review the curren ones.
+                //ask user if he/she wants to make new cards or review the curren ones.
                 inquirer.prompt([
                     {
                         type: "list",
@@ -200,7 +205,7 @@ function start() {
                         createFlashCards();
                     } else {
                         console.log("====== Okay lets review. ========");
-                         start();
+                        start();
                     }
                 });
             } else {
