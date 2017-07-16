@@ -21,9 +21,9 @@ function makeBasicCard(front, back) {
 };
 
 //creating the basic cards
-makeBasicCard("What superhero can climb walls and shoot webs?", "SpiderMan");
+/*makeBasicCard("What superhero can climb walls and shoot webs?", "SpiderMan");
 makeBasicCard("He has been seen running with an ant army.", "AntMan");
-makeBasicCard("This woman has a lasso that make people speak the truth.", "Wonder Woman");
+makeBasicCard("This woman has a lasso that make people speak the truth.", "Wonder Woman");*/
 
 //testing for errors
 //console.log(basicQuestion);
@@ -34,13 +34,65 @@ var makeClozeCard = function (text, cloze) {
     clozeQuestion.push(addClozeCard);
 }
 
-makeClozeCard("The Hulk turns green when he is angry", "Hulk");
+/*makeClozeCard("The Hulk turns green when he is angry", "Hulk");
 makeClozeCard("Natasha Romanova has many aliases but the one most poeple known her by is Black Widow.", "Black Widow");
-makeClozeCard("Superman is weak against kryptonite.", "Superman");
+makeClozeCard("Superman is weak against kryptonite.", "Superman");*/
 
 //testing for errors
 //console.log(clozeQuestion);
+creatflashcards();
 
+//function that lets user make the flashcards
+function creatflashcards() {
+    if (basicQuestion.length + clozeQuestion.length < 2) {
+        inquirer.prompt([
+            {
+                type: "list",
+                message: "Which flash card you want to make?",
+                choices: ["Basic flashcards", "Cloze-Deleted flashcards"],
+                name: "flashcards"
+            }
+        ]).then(function (inquirerResponse) {
+            if (inquirerResponse.flashcards === "Basic flashcards") {
+                inquirer.prompt([
+                    {
+                        name: "front",
+                        message: "What your question?",
+            },
+                    {
+                        name: "back",
+                        message: "The answer to the question:"
+             }
+        ]).then(function (answers) {
+                    makeBasicCard(answers.front, answers.back);
+                    creatflashcards();
+                });
+                //end of making basic cards choice
+            } else {
+                inquirer.prompt([
+                    {
+                        name: "text",
+                        message: "What your full sentence including your answer?"
+                    }, {
+                        name: "cloze",
+                        message: "Whats is the answer from the sentence that you want to remove?"
+                    }
+                ]).then(function (answers) {
+                    makeClozeCard(answers.text, answers.cloze);
+                    creatflashcards();
+                });
+            }
+        }); //end when you reach the limit of amount of cards you can make.
+    } else {
+    //when made enough cards run the start function to go through them.
+        start();
+    }
+
+} //end of creatflashcards().
+
+
+
+//function that run through the flashcard
 function start() {
     //overall total amount of question. if there are still question left run 
     if (basicQuestion.length + clozeQuestion.length > totalQuestion) {
@@ -115,7 +167,6 @@ function start() {
                     console.log("Okay come back another time.");
                 }
             });
-
     }
 } //function start end
-start();
+
