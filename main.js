@@ -82,10 +82,11 @@ function createFlashCards() {
                         message: "Whats is the answer from the sentence that you want to remove?"
                     }
                 ]).then(function (answers) {
-                    if (answers.text.includes(answers.cloze) === false){
+                    if (answers.text.includes(answers.cloze) === true){
+                        makeClozeCard(answers.text, answers.cloze);
                         createFlashCards();
-                    }else{
-                    makeClozeCard(answers.text, answers.cloze);
+                    }else{            
+                        console.log("The answer " + answers.cloze + " is not found in the sentence " + answers.text);
                     createFlashCards();
                     }
                 });
@@ -117,7 +118,6 @@ function createFlashCards() {
 } //end of creatflashcards().
 
 
-
 //function that run through the flashcard
 function start() {
     //overall total amount of question. if there are still question left run 
@@ -145,7 +145,7 @@ function start() {
             });
             //end of basic quesion. There are no more basic questions
         } else {
-            // now the 3 cloze question
+            // now the  cloze question
             inquirer.prompt([
                 {
                     name: "name",
@@ -169,7 +169,7 @@ function start() {
 
         //basic + cloze end. Now end game.
     } else {
-        //console.loging users score.
+        //console loging the user score.
         console.log("You are finish. Here is your score:" + "\n Correct: " + correct + "\n Wrong:" + incorrect);
         inquirer.prompt([
             // Here we ask the user to confirm. If they want to go through flashcards again
@@ -198,7 +198,7 @@ function start() {
             }
         ]).then(function (inquirerResponse) {
                     if (inquirerResponse.name === "Make new flashcards") {
-                        //empty the current array so user can fill it up wih new questions.
+                        //empty the array so user can fill it up wih new questions.
                         basicQuestion = [];
                         clozeQuestion = [];
                         console.log("====== Okay lets make new flashcards======");
