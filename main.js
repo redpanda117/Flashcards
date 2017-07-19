@@ -47,8 +47,10 @@ createFlashCards();
 
 //function that lets user make the flashcards
 function createFlashCards() {
+    
     //set limit to how many cards you can make
-    if (basicQuestion.length + clozeQuestion.length < 2) {
+    if (basicQuestion.length + clozeQuestion.length < 7) {
+        console.log("====== You can currently have made " + (basicQuestion.length + clozeQuestion.length) +" out of 7 flashcards ======");
         inquirer.prompt([
             {
                 type: "list",
@@ -70,6 +72,7 @@ function createFlashCards() {
         ]).then(function (answers) {
                     makeBasicCard(answers.front, answers.back);
                     createFlashCards();
+                    
                 });
                 //end of making basic cards choice
             } else {
@@ -82,12 +85,12 @@ function createFlashCards() {
                         message: "Whats is the answer from the sentence that you want to remove?"
                     }
                 ]).then(function (answers) {
-                    if (answers.text.includes(answers.cloze) === true){
+                    if (answers.text.includes(answers.cloze) === true) {
                         makeClozeCard(answers.text, answers.cloze);
                         createFlashCards();
-                    }else{            
+                    } else {
                         console.log("The answer " + answers.cloze + " is not found in the sentence " + answers.text);
-                    createFlashCards();
+                        createFlashCards();
                     }
                 });
             }

@@ -5,11 +5,18 @@ var ClozeCard = function (text, cloze) {
     this.partial =
         this.fullText.replace(this.cloze, "...");
    
-// to see if this cloze is in the full text.    
+
+}
+ClozeCard.prototype.printError = function(){
+    // to see if this cloze is in the full text.    
     if (this.fullText.includes(this.cloze) === false) {
             console.log("ERROR");
-        };
-}
+        }
+};
+
+/*test
+var one = new ClozeCard ("Superman is weak against kryptonite.", "duck");
+one.printError();*/
 
 /* Exporting our ClozeCard constructor. We will require it in 
 the main.js */
