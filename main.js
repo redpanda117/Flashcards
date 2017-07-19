@@ -50,7 +50,7 @@ function createFlashCards() {
     
     //set limit to how many cards you can make
     if (basicQuestion.length + clozeQuestion.length < 7) {
-        console.log("====== You can currently have made " + (basicQuestion.length + clozeQuestion.length) +" out of 7 flashcards ======");
+        console.log("====== You currently have made " + (basicQuestion.length + clozeQuestion.length) +" out of 7 flashcards ======");
         inquirer.prompt([
             {
                 type: "list",
