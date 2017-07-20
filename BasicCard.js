@@ -1,5 +1,5 @@
 
-//basic caard constructor with the back and front of your flashcard 
+//basic card constructor with the back and front of your flashcard 
 var BasicCard = function (front, back) {
     this.front = front;
     this.back = back;
